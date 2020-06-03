@@ -5,19 +5,19 @@
  * @version v1
  * @author Macxion <macxionallan@gmai.com>
  *
- * Plugin de validaÁ„o de formul·rios para jQuery!
- * A utilizaÁ„o requer apenas marcaÁıes HTML, nada de Javascript!
+ * Plugin de valida√ß√£o de formul√°rios para jQuery!
+ * A utiliza√ß√£o requer apenas marca√ß√µes HTML, nada de Javascript!
  * Testado com o jquery 3.3.1
  *
  * Copyright (c) 2018-2019 Macxion Moreira
  *
- * Sobre a LicenÁa MIT @link https://opensource.org/licenses/mit-license.php
+ * Sobre a Licen√ßa MIT @link https://opensource.org/licenses/mit-license.php
  * -----------------------------------------------------------------------------
  */
 
 
 /**
- * Plugin de validaÁ„o
+ * Plugin de valida√ß√£o
  *
  * @param {object} $ Objeto jQuery
  * @returns {Boolean}
@@ -48,14 +48,14 @@
     var invalidatedTextCSS = {color: 'red'};
 
     /**
-     * Status de validaÁ„o dos inputs
+     * Status de valida√ß√£o dos inputs
      *
      * @type {Array}
      */
     var inputStatus = [];
 
     /**
-     * Mime types, utilizados na funÁ„o "ext", para a funÁ„o "ext" n„o retornar
+     * Mime types, utilizados na fun√ß√£o "ext", para a fun√ß√£o "ext" n√£o retornar
      * um falso positivo, o tipo requerido informado no input deve ser suportado,
      * ou seja, deve existir neste objeto
      *
@@ -236,10 +236,10 @@
     };
 
     /**
-     * Hexadecimais m·gicos gerados das assinaturas de arquivos, utilizados na
-     * funÁ„o "type", para a funÁ„o "type" n„o retornar um falso positivo, o tipo
+     * Hexadecimais m√°gicos gerados das assinaturas de arquivos, utilizados na
+     * fun√ß√£o "type", para a fun√ß√£o "type" n√£o retornar um falso positivo, o tipo
      * requerido informado no input deve ser suportado, ou seja, deve existir
-     * nesta funÁ„o, se quiser inserir mais assinaturas no switch, pode utilizar
+     * nesta fun√ß√£o, se quiser inserir mais assinaturas no switch, pode utilizar
      * este site que usei, ele possui uma vasta listagem de arquivos com seu
      * conjunto (ou conjuntos) de 4 bytes
      *
@@ -282,18 +282,18 @@
                 if (typeof self.data('vrules') !== typeof undefined && self.data('vrules') !== false) { //Se o atributo data-vrules existir no elemento
                     inputStatus[$(':input').index(self)] = null;
                     var rules = self.data('vrules').split('|');
-                    for (var i = 0; i < rules.length; i++) { //varre regras de validaÁ„o definidas
-                        if (rules[i].includes('[')) { //Se a rule tem par‚metro
+                    for (var i = 0; i < rules.length; i++) { //varre regras de valida√ß√£o definidas
+                        if (rules[i].includes('[')) { //Se a rule tem par√¢metro
                             var ruleName = rules[i].split('[')[0];
                             var ruleParam = rules[i].split('[')[1].replace(']', '');
                             if (window.validationRules[ruleName](self, ruleParam)) {
-                                continue; //Se a rule deu certo, vai para a prÛxima, sen„o para nela
+                                continue; //Se a rule deu certo, vai para a pr√≥xima, sen√£o para nela
                             } else {
                                 break;
                             }
-                        } else { //Rule n„o tem par‚metro
+                        } else { //Rule n√£o tem par√¢metro
                             if (window.validationRules[rules[i]](self)) {
-                                continue; //Se a rule deu certo, vai para a prÛxima, sen„o para nela
+                                continue; //Se a rule deu certo, vai para a pr√≥xima, sen√£o para nela
                             } else {
                                 break;
                             }
@@ -328,7 +328,7 @@
         let name = el.attr('name');
         if ($('#' + name + 'Res').length)
             $('#' + name + 'Res').remove();
-        if (el.attr('type') === 'radio') {
+        if (el.attr('type') === 'radio' || el.attr('type') === 'checkbox') {
             $('<div id="' + name + 'Res"></div>').insertAfter($('input[name=' + el.attr('name') + ']').last());
         } else {
             $('<div id="' + name + 'Res"></div>').insertAfter(el);
@@ -340,11 +340,11 @@
     };
 
     /**
-     * Modelo padr„o que define como validar/invalidar os elementos, recebe os
-     * par‚metros diretamente das rules
+     * Modelo padr√£o que define como validar/invalidar os elementos, recebe os
+     * par√¢metros diretamente das rules
      *
      * @param {Object} el Elemento
-     * @param {Boolean} condition Teste de validaÁ„o da rule
+     * @param {Boolean} condition Teste de valida√ß√£o da rule
      * @param {String} ruleName Nome da rule que chamou o model
      * @param {String} msg Mensagem de erro vinda da rule
      * @returns {Boolean}
@@ -352,7 +352,7 @@
     var validateModel = function (el, condition, ruleName, msg) {
         let msgRule = el.data('vmsg-' + ruleName);
         let name = el.data('vname') ? '"' + el.data('vname') + '"' : '';
-        if (el.attr('type') === 'radio') {
+        if (el.attr('type') === 'radio' || el.attr('type') === 'checkbox') {
             if (ruleName === 'req') {
                 let radioCount = $('input[name=' + el.attr('name') + ']').length;
                 let notChecked = 0;
@@ -386,7 +386,7 @@
     };
 
     /**
-     * Objeto contendo todas as regras de validaÁ„o disponÌveis
+     * Objeto contendo todas as regras de valida√ß√£o dispon√≠veis
      *
      * @type {Object}
      */
@@ -394,7 +394,7 @@
 
         /**
          * REQUIRED
-         * Aceita somente valores n„o vazios, tambÈm funciona com type=file
+         * Aceita somente valores n√£o vazios, tamb√©m funciona com type=file
          *
          * @example data-vrules="req"
          *
@@ -413,7 +413,7 @@
 
         /**
          * NUMERIC
-         * Aceita somente n˙meros
+         * Aceita somente n√∫meros
          *
          * @example data-vrules="num"
          *
@@ -427,13 +427,13 @@
 
         /**
          * MIN LENGTH
-         * Aceita valores com caracteres maiores ou iguais a length, tambÈm
-         * funciona com type=file e neste caso, contar· arquivos
+         * Aceita valores com caracteres maiores ou iguais a length, tamb√©m
+         * funciona com type=file e neste caso, contar√° arquivos
          *
          * @example data-vrules="min[7]"
          *
          * @param {Object} el Elemento
-         * @param {int} length N˙mero de caracteres
+         * @param {int} length N√∫mero de caracteres
          * @returns {Boolean}
          */
         min: function (el, length) {
@@ -453,13 +453,13 @@
 
         /**
          * MAX LENGTH
-         * Aceita valores com caracteres menores ou iguais a length, tambÈm
-         * funciona com type=file e neste caso, contar· arquivos
+         * Aceita valores com caracteres menores ou iguais a length, tamb√©m
+         * funciona com type=file e neste caso, contar√° arquivos
          *
          * @example data-vrules="max[7]"
          *
          * @param {Object} el Elemento
-         * @param {int} length N˙mero de caracteres
+         * @param {int} length N√∫mero de caracteres
          * @returns {Boolean}
          */
         max: function (el, length) {
@@ -479,13 +479,13 @@
 
         /**
          * EQUAL LENGTH
-         * Aceita valores com caracteres iguais a length, tambÈm functiona com
-         * type=files e neste caso, contar· arquivos
+         * Aceita valores com caracteres iguais a length, tamb√©m functiona com
+         * type=files e neste caso, contar√° arquivos
          *
          * @example data-vrules="eql[7]"
          *
          * @param {Object} el Elemento
-         * @param {int} length N˙mero de caracteres
+         * @param {int} length N√∫mero de caracteres
          * @returns {Boolean}
          */
         eql: function (el, length) {
@@ -533,7 +533,7 @@
 
         /**
          * E-MAIL
-         * Aceita um e-mail v·lido, seguindo a especificaÁ„o do HTML5 pela W3C
+         * Aceita um e-mail v√°lido, seguindo a especifica√ß√£o do HTML5 pela W3C
          *
          * @see https://www.w3.org/TR/html5/forms.html#valid-e-mail-address
          *
@@ -549,7 +549,7 @@
 
         /**
          * TELEPHONE NUMBER
-         * Aceita um telefone v·lido do Brasil, alguns formatos aceitos:
+         * Aceita um telefone v√°lido do Brasil, alguns formatos aceitos:
          * +55 (11) 98888-8888, (61) 98585-8585, (61) 3415-9898, +55(61)98585-8585, 55 (11) 98888-8888
          *
          * @example data-vrules="tel"
@@ -564,7 +564,7 @@
 
         /**
          * MONETARY
-         * Aceita valores monet·rios, por exemplo: 1.293,35, 0, 325, 0,8, 0,50, 0.30
+         * Aceita valores monet√°rios, por exemplo: 1.293,35, 0, 325, 0,8, 0,50, 0.30
          *
          * @example data-vrules="cash"
          *
@@ -578,7 +578,7 @@
 
         /**
          * REGULAR EXPRESSION
-         * Aceita qualquer tipo de express„o regular para mais flexibilidade
+         * Aceita qualquer tipo de express√£o regular para mais flexibilidade
          *
          * @example data-vrules="reg" data-vreg="/_expressao_regular_aqui_sem_as_barras_/"
          *
@@ -599,16 +599,16 @@
 
         /**
          * FILE EXTENSION
-         * Aceita arquivos com as extensıes informadas, checando tambÈm seu mime type,
-         * os tipos s„o informados dentro de colchetes, separados por vÌrgula,
-         * esta funÁ„o utiliza o objeto files, portanto tenha cuidado com arquivos
-         * que possuem o mime type em branco, se quer uma funÁ„o mais confi·vel,
+         * Aceita arquivos com as extens√µes informadas, checando tamb√©m seu mime type,
+         * os tipos s√£o informados dentro de colchetes, separados por v√≠rgula,
+         * esta fun√ß√£o utiliza o objeto files, portanto tenha cuidado com arquivos
+         * que possuem o mime type em branco, se quer uma fun√ß√£o mais confi√°vel,
          * utilize a "type"
          *
          * @example data-vrules="ext[jpg,png,gif]"
          *
          * @param {Object} el Elemento
-         * @param {String} extensions String de extensıes permitidas
+         * @param {String} extensions String de extens√µes permitidas
          * @returns {Booolean}
          */
         ext: function (el, extensions) {
@@ -636,14 +636,14 @@
 
         /**
          * FILE SIGNATURE
-         * Aceita arquivos dos tipos informados, ao contr·rio da funÁ„o "ext",
+         * Aceita arquivos dos tipos informados, ao contr√°rio da fun√ß√£o "ext",
          * esta verifica a assinatura do arquivo para saber o seu tipo, mesmo se
          * ele possuir seu mime type em branco
          *
          * @example data-vrules="type[jpg,png,gif]"
          *
          * @param {Object} el Elemento
-         * @param {String} types String de extensıes permitidas
+         * @param {String} types String de extens√µes permitidas
          * @returns {Boolean}
          */
         type: function (el, types) {
@@ -679,7 +679,7 @@
 
 /**
  * Fica ouvindo qualquer submit, se seu form possuir a classe "validate",
- * valida o form, se o form n„o possuir a classe, apenas continua
+ * valida o form, se o form n√£o possuir a classe, apenas continua
  *
  * @param {object} e Evento
  */
