@@ -24,7 +24,7 @@ Atualmente, o plugin conta com uma lista singela de regras de validação, poré
 * **min** (min length - text, file)
 * **max** (max length - text, file)
 * **eql** (equal length - text, file)
-* **dbr** (data no format brasileiro - text)
+* **dbr** (data no formato brasileiro - text)
 * **dbd** (data no formato database - text)
 * **mail** (e-mail - text)
 * **tel** (nº de telefone - text)
