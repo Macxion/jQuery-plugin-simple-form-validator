@@ -2,7 +2,7 @@
 Plugin de validação de formulários para jQuery que utiliza apenas marcações em HTML.
 
 ## Utilização
-Basta referenciar o jQuery e este plugin, a versão **3.1.1** é a que foi testada.
+Basta referenciar o jQuery e este plugin, a versão **3.1.1** é a que foi testada, o plugin valida os inputs no momento do submit do formulário
 ```html
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="/jquery-simple-validator.js"></script>
