@@ -1,5 +1,7 @@
 # jQuery-simple-form-validator
+
 ![Screenshot](form.png)
+
 Plugin de validação de formulários para jQuery que utiliza apenas marcações em HTML.
 
 ## Utilização
