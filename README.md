@@ -37,8 +37,10 @@ Basta que o input tenha o atributo **data-vrules**, ele pode receber várias, se
 <input type="text" name="numero" data-vrules="req|reg" data-vreg="\d">
 ```
 
-### Customizar mensagem de erro
+## Customizar mensagem de erro
 No input desejado, basta informar o atributo **data-vmsg-[nome-da-rule]**, por exemplo: **data-vmsg-req="mensagem de erro customizada"**, se o input possuir o atributo **data-vname**, o valor deste name substiruirá o coringa **{$}** na mensagem de erro, se ele existir.
 ```html
 <input type="text" name="nome" data-vrules="req|min[5]" data-vname="nome de usuário" data-vmsg-req="O campo {$} é obrigatório">
 ```
+
+Nada de **jQuery.extend()** ou manipulações do objeto via javascript, tudo é feito via HTML para facilitar ao máximo seu uso, afinal, não importa o quão escondido seja seu .js, ele sempre poderá ser desabilitado, portanto, nunca esqueça das boas práticas, valide sua aplicação nas 3 camadas sempre (front-end, back-end, database).
