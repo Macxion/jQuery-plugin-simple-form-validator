@@ -46,5 +46,5 @@ No input desejado, basta informar o atributo **data-vmsg-[nome-da-rule]**, por e
 <input type="text" name="nome" data-vrules="req|min[5]" data-vname="nome de usuário" data-vmsg-req="O campo {$} é obrigatório">
 ```
 
-## Plugin simpes
+## Plugin simples
 Nada de **jQuery.extend()** ou manipulações do objeto via javascript, tudo é feito via HTML para facilitar ao máximo seu uso, afinal, não importa o quão escondido seja seu .js, ele sempre poderá ser desabilitado, portanto, nunca esqueça das boas práticas, valide sua aplicação nas 3 camadas sempre (front-end, back-end, database).
