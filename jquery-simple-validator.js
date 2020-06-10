@@ -311,7 +311,7 @@
      * @param {Object} el Elemento
      */
     var validateElement = function (el) {
-        let name = el.attr('name');
+        let name = el.attr('name').replace('[]', '');
         if ($('#' + name + 'Res').length)
             $('#' + name + 'Res').remove();
         el.css(validatedInputCSS);
@@ -325,7 +325,7 @@
      * @param {String} msg Mensagem de erro vinda do "validateModel"
      */
     var invalidateElement = function (el, msg) {
-        let name = el.attr('name');
+        let name = el.attr('name').replace('[]', '');
         if ($('#' + name + 'Res').length)
             $('#' + name + 'Res').remove();
         if (el.attr('type') === 'radio' || el.attr('type') === 'checkbox') {
@@ -667,7 +667,7 @@
                     if (condition === true) {
                         return;
                     } else {
-                        return validateModel(el, false, 'sig', '"' + file.name + '" possui um formato n&atilde;o permitido');
+                        return validateModel(el, false, 'type', '"' + file.name + '" possui um formato n&atilde;o permitido');
                     }
                 });
             });
