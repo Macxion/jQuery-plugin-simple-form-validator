@@ -1,4 +1,4 @@
-# jQuery-simple-form-validator
+# jQuery-plugin-simple-form-validator
 
 ![Screenshot](form.png)
 
