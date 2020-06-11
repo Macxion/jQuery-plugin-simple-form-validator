@@ -279,23 +279,27 @@
         if ($(form).hasClass('validate')) {
             $(els).each(function () { //varre elementos do form
                 var self = $(this);
-                if (typeof self.data('vrules') !== typeof undefined && self.data('vrules') !== false) { //Se o atributo data-vrules existir no elemento
-                    inputStatus[$(':input').index(self)] = null;
-                    var rules = self.data('vrules').split('|');
-                    for (var i = 0; i < rules.length; i++) { //varre regras de validação definidas
-                        if (rules[i].includes('[')) { //Se a rule tem parâmetro
-                            var ruleName = rules[i].split('[')[0];
-                            var ruleParam = rules[i].split('[')[1].replace(']', '');
-                            if (window.validationRules[ruleName](self, ruleParam)) {
-                                continue; //Se a rule deu certo, vai para a próxima, senão para nela
-                            } else {
-                                break;
-                            }
-                        } else { //Rule não tem parâmetro
-                            if (window.validationRules[rules[i]](self)) {
-                                continue; //Se a rule deu certo, vai para a próxima, senão para nela
-                            } else {
-                                break;
+                if (self.attr('type') === 'hidden' || self.attr('type') === 'submit') {
+                    return;
+                } else {
+                    if (typeof self.data('vrules') !== typeof undefined && self.data('vrules') !== false) { //Se o atributo data-vrules existir no elemento
+                        inputStatus[$(':input').index(self)] = null;
+                        var rules = self.data('vrules').split('|');
+                        for (var i = 0; i < rules.length; i++) { //varre regras de validação definidas
+                            if (rules[i].includes('[')) { //Se a rule tem parâmetro
+                                var ruleName = rules[i].split('[')[0];
+                                var ruleParam = rules[i].split('[')[1].replace(']', '');
+                                if (window.validationRules[ruleName](self, ruleParam)) {
+                                    continue; //Se a rule deu certo, vai para a próxima, senão para nela
+                                } else {
+                                    break;
+                                }
+                            } else { //Rule não tem parâmetro
+                                if (window.validationRules[rules[i]](self)) {
+                                    continue; //Se a rule deu certo, vai para a próxima, senão para nela
+                                } else {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -315,7 +319,7 @@
         if ($('#' + name + 'Res').length)
             $('#' + name + 'Res').remove();
         el.css(validatedInputCSS);
-        inputStatus[$(':input').index(el)] = true;
+        inputStatus[$(el).parent('form').children(':input:not([type=hidden]):not([type=submit])').index(el)] = true;
     };
 
     /**
@@ -336,7 +340,7 @@
         el.focus();
         el.css(invalidatedInputCSS);
         $('#' + name + 'Res').css(invalidatedTextCSS).html(msg);
-        inputStatus[$(':input').index(el)] = false;
+        inputStatus[$(el).parent('form').children(':input:not([type=hidden]):not([type=submit])').index(el)] = false;
     };
 
     /**
@@ -664,10 +668,11 @@
                     });
                     const hex = bytes.join('').toUpperCase();
                     let condition = allowedTypes.includes(signatures(hex));
-                    if (condition === true) {
+                    if (condition) {
                         return;
                     } else {
-                        return validateModel(el, false, 'type', '"' + file.name + '" possui um formato n&atilde;o permitido');
+                        invalidateElement(el, '"' + file.name + '" possui um formato n&atilde;o permitido');
+                        return false;
                     }
                 });
             });
