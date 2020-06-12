@@ -602,33 +602,65 @@
         },
 
         /**
-         * FILE EXTENSION
+         * FILE TYPE
          * Aceita arquivos com as extensões informadas, checando também seu mime type,
-         * os tipos são informados dentro de colchetes, separados por vírgula,
-         * esta função utiliza o objeto files, portanto tenha cuidado com arquivos
-         * que possuem o mime type em branco, se quer uma função mais confiável,
-         * utilize a "type"
+         * se o objeto files retornar a extensão do arquivo em branco, a função
+         * checará a assinatura do arquivo através do objeto filereader
          *
-         * @example data-vrules="ext[jpg,png,gif]"
+         * @example data-vrules="type[jpg,png,gif]"
          *
          * @param {Object} el Elemento
          * @param {String} extensions String de extensões permitidas
          * @returns {Booolean}
          */
-        ext: function (el, extensions) {
+        type: function (el, extensions) {
             let allowedExt = extensions.split(',');
             let files = el.prop('files');
+
+            function readFile (f, loadCallback) {
+                let reader = new FileReader();
+                reader.onload = loadCallback;
+                let blob = f.slice(0, 4);
+                reader.readAsArrayBuffer(blob);
+            }
+
             $.each(files, function (i, file) {
                 if (typeof (file.type) === 'undefined' || file.type === '') {
-                    return validateModel(el, false, 'ext', '"' + file.name + '" possui um formato desconhecido');
+                    readFile(file, function (e) {
+                        let uint = new Uint8Array(e.target.result);
+                        let bytes = [];
+                        uint.forEach(function (byte) {
+                            bytes.push(byte.toString(16));
+                        });
+                        const hex = bytes.join('').toUpperCase();
+                        let condition = allowedExt.includes(signatures(hex));
+                        if (condition) {
+                            return;
+                        } else {
+                            return validateModel(el, false, 'type', '"' + file.name + '" possui um formato n&atilde;o permitido');
+                        }
+                    });
                 } else {
+                    $.each(allowedExt, function(key, ext) {
+                        $.each(mimes, function (i, item) {
+                            if (ext === i) {
+                                return false;
+                            } else {
+                                let exp = Array.isArray(item) ? Boolean(item.includes(file.type)) : Boolean(item === file.type);
+                                if (exp) {
+                                    allowedExt.push(i);
+                                }
+                            }
+                        });
+                    });
+                    allowedExt.splice(0, allowedExt.length, ...(new Set(allowedExt)));
                     $.each(mimes, function (i, item) {
                         let exp = Array.isArray(item) ? Boolean(item.includes(file.type)) : Boolean(item === file.type);
-                        if (exp === true) {
+                        if (exp) {
                             if (allowedExt.includes(i)) {
-                                return false; //sai
+                                return false;
                             } else {
-                                return validateModel(el, false, 'ext', '"' + file.name + '" possui um formato n&atilde;o permitido');
+                                return validateModel(el, false, 'type', '"' + file.name + '" possui um formato n&atilde;o permitido');
                             }
                         } else {
                             return;
@@ -636,48 +668,8 @@
                     });
                 }
             });
-        },
-
-        /**
-         * FILE SIGNATURE
-         * Aceita arquivos dos tipos informados, ao contrário da função "ext",
-         * esta verifica a assinatura do arquivo para saber o seu tipo, mesmo se
-         * ele possuir seu mime type em branco
-         *
-         * @example data-vrules="type[jpg,png,gif]"
-         *
-         * @param {Object} el Elemento
-         * @param {String} types String de extensões permitidas
-         * @returns {Boolean}
-         */
-        type: function (el, types) {
-            let allowedTypes = types.split(',');
-            let files = el.prop('files');
-            function readFile (f, loadCallback) {
-                let reader = new FileReader();
-                reader.onload = loadCallback;
-                let blob = f.slice(0, 4);
-                reader.readAsArrayBuffer(blob);
-            }
-            $.each(files, function (i, file) {
-                readFile(file, function (e) {
-                    let uint = new Uint8Array(e.target.result);
-                    let bytes = [];
-                    uint.forEach(function (byte) {
-                        bytes.push(byte.toString(16));
-                    });
-                    const hex = bytes.join('').toUpperCase();
-                    let condition = allowedTypes.includes(signatures(hex));
-                    if (condition) {
-                        return;
-                    } else {
-                        invalidateElement(el, '"' + file.name + '" possui um formato n&atilde;o permitido');
-                        return false;
-                    }
-                });
-            });
         }
-
+        
     };
 
 })(jQuery);
