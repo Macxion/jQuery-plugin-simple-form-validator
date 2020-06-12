@@ -30,7 +30,6 @@ Atualmente, o plugin conta com uma lista singela de regras de validação, poré
 * **tel** (nº de telefone - text)
 * **cash** (valor monetário - text)
 * **reg** (expressão regular - text)
-* **ext** (file extension - file)
 * **type** (file type - file)
 
 ## Aplicação das rules nos inputs
