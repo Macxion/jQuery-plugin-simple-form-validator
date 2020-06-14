@@ -55,7 +55,7 @@
     var inputStatus = [];
 
     /**
-     * Mime types, utilizados na função "ext", para a função "ext" não retornar
+     * Mime types, utilizados na função "type", para a função "type" não retornar
      * um falso positivo, o tipo requerido informado no input deve ser suportado,
      * ou seja, deve existir neste objeto
      *
