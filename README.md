@@ -29,6 +29,7 @@ Atualmente, o plugin conta com uma lista singela de regras de validação, poré
 * **mail** (e-mail - text)
 * **tel** (nº de telefone - text)
 * **cash** (valor monetário - text)
+* **cpf** (cpf válido - text)
 * **reg** (expressão regular - text)
 * **type** (file type - file)
 
