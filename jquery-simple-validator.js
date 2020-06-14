@@ -579,6 +579,58 @@
             let condition = /(\d{1,3}(\.\d{3})*|\d+)(\,\d{2})?$/.test(el.val());
             return validateModel(el, condition, 'cash', 'deve conter um valor monet&aacute;rio');
         },
+        
+        /**
+         * CPF
+         * Aceita um cpf válido
+         *
+         * @example data-vrules="cpf"
+         *
+         * @param {Object} el Elemento
+         * @return {Boolean}
+         */
+        cpf: function (el) {
+            let condition = /\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(el.val());
+            if (condition) {
+                let cpf = el.val();
+                var sum = 0;
+                var remainder;
+                cpf = cpf.replace('.', '').replace('.', '').replace('-', '').trim();
+                var equalNumbers = true;
+                for (var i = 0; i < cpf.length - 1; i++) {
+                    if (cpf[i] != cpf[i + 1]) {
+                        equalNumbers = false;
+                    }
+                }
+                if (equalNumbers) {
+                    return validateModel(el, false, 'cpf', 'deve conter um cpf v&aacute;lido');
+                }
+                for (i = 1; i <= 9; i++) {
+                    sum = sum + parseInt(cpf.substring(i - 1, i)) * (11 - i);
+                }
+                remainder = (sum * 10) % 11;
+                if ((remainder == 10) || (remainder == 11)) {
+                    remainder = 0;
+                }
+                if (remainder != parseInt(cpf.substring(9, 10))) {
+                    return validateModel(el, false, 'cpf', 'deve conter um cpf v&aacute;lido');
+                }
+                sum = 0;
+                for (i = 1; i <= 10; i++) {
+                    sum = sum + parseInt(cpf.substring(i - 1, i)) * (12 - i);
+                }
+                remainder = (sum * 10) % 11;
+                if ((remainder == 10) || (remainder == 11)) {
+                    remainder = 0;
+                }
+                if (remainder != parseInt(cpf.substring(10, 11))) {
+                    return validateModel(el, false, 'cpf', 'deve conter um cpf v&aacute;lido');
+                }
+                return validateModel(el, true, 'cpf', 'deve conter um cpf v&aacute;lido');
+            } else {
+                return validateModel(el, false, 'cpf', 'deve conter um cpf v&aacute;lido');
+            }
+        },
 
         /**
          * REGULAR EXPRESSION
