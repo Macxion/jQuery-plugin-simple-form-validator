@@ -319,7 +319,7 @@
         if ($('#' + name + 'Res').length)
             $('#' + name + 'Res').remove();
         el.css(validatedInputCSS);
-        inputStatus[$(el).parent('form').children(':input:not([type=hidden]):not([type=submit])').index(el)] = true;
+        inputStatus[$('input').index(el)] = true;
     };
 
     /**
@@ -340,7 +340,7 @@
         el.focus();
         el.css(invalidatedInputCSS);
         $('#' + name + 'Res').css(invalidatedTextCSS).html(msg);
-        inputStatus[$(el).parent('form').children(':input:not([type=hidden]):not([type=submit])').index(el)] = false;
+        inputStatus[$('input').index(el)] = false;
     };
 
     /**
